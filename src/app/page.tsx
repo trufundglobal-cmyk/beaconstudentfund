@@ -4,7 +4,8 @@ import {
   Lightning, 
   Bank, 
   CheckCircle,
-  ArrowRight
+  ArrowRight,
+  Student
 } from '@phosphor-icons/react/dist/ssr';
 
 export default function Home() {
