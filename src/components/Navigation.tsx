@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { List, X } from '@phosphor-icons/react';
 
-const LOGO_PATH = '/api/image?path=/home/peter/.gemini/antigravity/brain/de2aa657-8b73-4df1-8f71-daaf89057745/trufund_logo_1784439717888.png';
+const LOGO_PATH = '/logo.png';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);

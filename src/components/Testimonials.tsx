@@ -5,7 +5,7 @@ export default function Testimonials() {
       name: "Nia S.",
       school: "University of Michigan",
       degree: "B.S. Nursing, Class of 2019",
-      imagePath: "/api/image?path=/home/peter/.gemini/antigravity/brain/de2aa657-8b73-4df1-8f71-daaf89057745/student_portrait_1_1784438273080.png",
+      imagePath: "/student_portrait_1.png",
       quote: "My financial aid came through short by about $2,400 — not enough to cover my clinical rotation fees and uniform costs. I was looking at having to push back my graduation by a full semester. TruFund got me the money in 48 hours. The whole application took me maybe 10 minutes on my phone between classes.",
     },
     {
@@ -13,7 +13,7 @@ export default function Testimonials() {
       name: "Jack H.",
       school: "University of Texas at Austin",
       degree: "M.S. Mechanical Engineering, Class of 2021",
-      imagePath: "/api/image?path=/home/peter/.gemini/antigravity/brain/de2aa657-8b73-4df1-8f71-daaf89057745/student_portrait_2_1784438295709.png",
+      imagePath: "/student_portrait_2.png",
       quote: "I lost my campus job mid-semester when the department froze hiring. I was behind on rent and couldn't ask my parents again. I applied to TruFund on a Wednesday night and had a decision by Thursday morning. No cosigner, no drama. I paid it back over two years — it's built into my budget like a phone bill.",
     },
     {
@@ -21,7 +21,7 @@ export default function Testimonials() {
       name: "Chloe C.",
       school: "New York University",
       degree: "MBA, Class of 2023",
-      imagePath: "/api/image?path=/home/peter/.gemini/antigravity/brain/de2aa657-8b73-4df1-8f71-daaf89057745/student_portrait_3_1784438308018.png",
+      imagePath: "/student_portrait_3.png",
       quote: "Rent in New York is no joke. My stipend covered most of it but I kept coming up short in the last month of each semester. I used TruFund twice — once for $3,000 and once for $4,500. The rate was better than my credit card and I actually knew what I was signing up for, which I appreciated.",
     }
   ];

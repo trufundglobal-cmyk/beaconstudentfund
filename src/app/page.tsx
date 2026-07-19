@@ -160,7 +160,7 @@ export default function Home() {
             <Link href="/" className="inline-flex items-center mb-4 group">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/api/image?path=/home/peter/.gemini/antigravity/brain/de2aa657-8b73-4df1-8f71-daaf89057745/trufund_logo_white_1784439748347.png"
+                src="/logo-white.png"
                 alt="TruFund"
                 height={40}
                 className="h-10 w-auto object-contain"

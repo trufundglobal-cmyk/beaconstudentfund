@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 import { ShieldChevron, LockKey, EnvelopeSimple } from '@phosphor-icons/react/dist/ssr';
 
 export default function LoginPage() {
@@ -12,21 +13,33 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
-    // Simulate login delay
-    setTimeout(() => {
-      // In a real app, this would use Supabase auth
-      if (email.includes('admin')) {
+    try {
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (authError) throw authError;
+
+      // Check routing logic
+      if (email.toLowerCase().includes('admin') || data.user?.email?.toLowerCase().includes('admin')) {
         router.push('/admin');
       } else {
-        router.push('/'); // Or user dashboard
+        // Since Student Dashboard isn't built yet, we show an alert and redirect home
+        alert("The Student Dashboard is currently under construction. We will notify you when it's ready!");
+        router.push('/');
       }
+    } catch (err: any) {
+      console.error('Login error:', err);
+      setError(err.message || 'Invalid email or password.');
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
