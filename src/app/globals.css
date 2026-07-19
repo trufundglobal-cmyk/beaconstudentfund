@@ -1,28 +1,39 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-primary: #0A192F;
-  --color-primary-light: #112240;
-  --color-secondary: #00B4D8;
-  --color-secondary-hover: #0096B4;
-  --color-accent: #FF6B6B;
-  --color-accent-hover: #FF5252;
-  --color-background: #F8FAFC;
-  --color-foreground: #0F172A;
+  /* Primary Palette */
+  --color-primary: #1a365d;
+  --color-primary-light: #2b6cb0; /* Derived for hover */
+  --color-secondary: #38b2ac;
+  --color-secondary-hover: #319795; /* Derived for hover */
+  --color-accent: #ed8936;
+  --color-accent-hover: #dd6b20; /* Derived for hover */
+  
+  /* Secondary Palette */
+  --color-light-teal: #e6fffa;
+  --color-light-coral: #fffaf0;
+  --color-gray-100: #f7fafc;
+  --color-gray-200: #edf2f7;
+  --color-gray-400: #a0aec0;
+  --color-gray-600: #4a5568;
+  --color-gray-900: #1a202c;
+
+  /* Semantic Colors */
+  --color-success: #48bb78;
+  --color-error: #f56565;
+  --color-warning: #ecc94b;
+  
+  /* System */
+  --color-background: var(--color-gray-100);
+  --color-foreground: var(--color-gray-900);
   
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-outfit: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-outfit: var(--font-inter), ui-sans-serif, system-ui, sans-serif; /* Blueprint states Inter for everything, so mapping outfit to inter just in case */
 }
 
 @layer utilities {
-  .glass {
-    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-sm;
-  }
-  .glass-dark {
-    @apply bg-[var(--color-primary)]/80 backdrop-blur-md border border-white/10 shadow-lg;
-  }
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-secondary)] to-[var(--color-accent)];
+  .card {
+    @apply bg-white border border-[var(--color-gray-200)] shadow-sm rounded-xl;
   }
 }
 
