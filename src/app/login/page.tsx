@@ -34,9 +34,10 @@ export default function LoginPage() {
         alert("The Student Dashboard is currently under construction. We will notify you when it's ready!");
         router.push('/');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Login error:', err);
-      setError(err.message || 'Invalid email or password.');
+      const errorMessage = err instanceof Error ? err.message : 'Invalid email or password.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -55,7 +56,7 @@ export default function LoginPage() {
             Welcome back
           </h2>
           <p className="text-[var(--color-gray-600)] mt-2 text-sm">
-            Log in to manage your TruFund account.
+            Log in to manage your Beacon Student Fund account.
           </p>
         </div>
 
@@ -125,7 +126,7 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center mt-8 text-sm text-[var(--color-gray-600)]">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link href="/apply" className="font-semibold text-primary hover:text-primary-light">
             Check your rate
           </Link>

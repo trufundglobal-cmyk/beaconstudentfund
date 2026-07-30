@@ -1,4 +1,10 @@
 import { EnvelopeSimple, Phone, MapPin } from '@phosphor-icons/react/dist/ssr';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Contact Us',
+  description: 'Get in touch with Beacon Student Fund.',
+};
 
 export default function ContactPage() {
   return (
@@ -7,7 +13,7 @@ export default function ContactPage() {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-[var(--color-gray-900)] mb-4">Get in Touch</h1>
           <p className="text-lg text-[var(--color-gray-600)] max-w-2xl mx-auto">
-            Have questions about a loan, your application, or how TruFund works? Our team is here to help.
+            Have questions about a loan, your application, or how Beacon Student Fund works? Our team is here to help.
           </p>
         </div>
 
@@ -18,7 +24,7 @@ export default function ContactPage() {
             </div>
             <h3 className="font-bold text-[var(--color-gray-900)] mb-2">Email Support</h3>
             <p className="text-[var(--color-gray-600)] text-sm mb-4">We usually respond within 2 hours during business days.</p>
-            <a href="mailto:support@trufund.co" className="text-primary font-semibold hover:underline">support@trufund.co</a>
+            <a href="mailto:support@beaconstudentfund.com" className="text-primary font-semibold hover:underline">support@beaconstudentfund.com</a>
           </div>
 
           <div className="bg-white p-8 rounded-xl shadow-sm border border-[var(--color-gray-200)] text-center">

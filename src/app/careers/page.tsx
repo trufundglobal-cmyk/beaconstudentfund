@@ -1,20 +1,28 @@
 import { Briefcase, ArrowRight } from '@phosphor-icons/react/dist/ssr';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Careers',
+  description: 'Join the Beacon Student Fund team.',
+};
 
 export default function CareersPage() {
   const jobs = [
     { title: 'Senior Full Stack Engineer', department: 'Engineering', location: 'Remote (US)' },
     { title: 'Credit Risk Analyst', department: 'Risk & Compliance', location: 'New York, NY' },
     { title: 'Student Success Agent', department: 'Customer Support', location: 'Remote (US)' },
-    { title: 'Product Designer', department: 'Product', location: 'San Francisco, CA' }
+    { title: 'Product Designer', department: 'Product', location: 'San Francisco, CA' },
+    { title: 'AI Trainer', department: 'Data & AI', location: 'Remote (Global)' },
+    { title: 'Growth Marketing Manager', department: 'Marketing', location: 'Remote (US)' }
   ];
 
   return (
     <div className="bg-[var(--color-gray-100)] min-h-[calc(100vh-4rem)] pb-20">
       <section className="bg-primary text-white py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Join the TruFund Team</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Join the Beacon Student Fund Team</h1>
           <p className="text-xl text-[var(--color-light-teal)] max-w-2xl mx-auto">
-            Help us build the future of accessible education funding. We're looking for passionate individuals to join our mission.
+            Help us build the future of accessible education funding. We&apos;re looking for passionate individuals to join our mission.
           </p>
         </div>
       </section>

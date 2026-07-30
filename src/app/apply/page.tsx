@@ -20,27 +20,39 @@ import {
 type FormData = {
   firstName: string;
   lastName: string;
+  email: string;
+  phone: string;
   gender: string;
   age: string;
   state: string;
   zipcode: string;
   schoolName: string;
+  graduationYear: string;
+  loanAmount: string;
   loanPurpose: string;
   transcriptFile: File | null;
   passportFile: File | null;
+  photoFile: File | null;
+  legalConsent: boolean;
 };
 
 const initialFormData: FormData = {
   firstName: '',
   lastName: '',
+  email: '',
+  phone: '',
   gender: '',
   age: '',
   state: '',
   zipcode: '',
   schoolName: '',
+  graduationYear: '',
+  loanAmount: '',
   loanPurpose: '',
   transcriptFile: null,
   passportFile: null,
+  photoFile: null,
+  legalConsent: false,
 };
 
 const US_STATES = [
@@ -66,6 +78,7 @@ export default function ApplyPage() {
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [appReference, setAppReference] = useState<string>('');
   
   const totalSteps = 5; // Step 6 is success
 
@@ -78,7 +91,7 @@ export default function ApplyPage() {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: 'transcriptFile' | 'passportFile') => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: 'transcriptFile' | 'passportFile' | 'photoFile') => {
     if (e.target.files && e.target.files[0]) {
       setFormData(prev => ({ ...prev, [fieldName]: e.target.files![0] }));
       if (errors[fieldName]) {
@@ -92,8 +105,13 @@ export default function ApplyPage() {
     let isValid = true;
 
     if (currentStep === 1) {
-      if (!formData.firstName.trim()) { newErrors.firstName = 'First name is required'; isValid = false; }
-      if (!formData.lastName.trim()) { newErrors.lastName = 'Last name is required'; isValid = false; }
+      if (!(formData.firstName || '').trim()) { newErrors.firstName = 'First name is required'; isValid = false; }
+      if (!(formData.lastName || '').trim()) { newErrors.lastName = 'Last name is required'; isValid = false; }
+      if (!(formData.email || '').trim() || !(formData.email || '').toLowerCase().endsWith('.edu')) { 
+        newErrors.email = 'A valid .edu email address is required'; 
+        isValid = false; 
+      }
+      if (!(formData.phone || '').trim()) { newErrors.phone = 'Phone number is required'; isValid = false; }
       if (!formData.gender) { newErrors.gender = 'Gender is required'; isValid = false; }
       if (!formData.age || isNaN(Number(formData.age)) || Number(formData.age) < 17) { 
         newErrors.age = 'Valid age (17+) is required'; 
@@ -101,16 +119,25 @@ export default function ApplyPage() {
       }
     } else if (currentStep === 2) {
       if (!formData.state) { newErrors.state = 'State is required'; isValid = false; }
-      if (!formData.zipcode.trim() || !/^\d{5}(-\d{4})?$/.test(formData.zipcode)) { 
+      if (!(formData.zipcode || '').trim() || !/^\d{5}(-\d{4})?$/.test(formData.zipcode || '')) { 
         newErrors.zipcode = 'Valid ZIP code is required'; 
         isValid = false; 
       }
     } else if (currentStep === 3) {
-      if (!formData.schoolName.trim()) { newErrors.schoolName = 'School name is required'; isValid = false; }
+      if (!(formData.schoolName || '').trim()) { newErrors.schoolName = 'School name is required'; isValid = false; }
+      if (!(formData.graduationYear || '').trim() || isNaN(Number(formData.graduationYear))) { 
+        newErrors.graduationYear = 'Graduation year is required'; 
+        isValid = false; 
+      }
+      if (!(formData.loanAmount || '').trim() || isNaN(Number(formData.loanAmount)) || Number(formData.loanAmount) <= 0) { 
+        newErrors.loanAmount = 'Valid loan amount is required'; 
+        isValid = false; 
+      }
       if (!formData.loanPurpose) { newErrors.loanPurpose = 'Loan purpose is required'; isValid = false; }
     } else if (currentStep === 4) {
       if (!formData.transcriptFile) { newErrors.transcriptFile = 'Transcript is required'; isValid = false; }
       if (!formData.passportFile) { newErrors.passportFile = 'Government ID is required'; isValid = false; }
+      if (!formData.photoFile) { newErrors.photoFile = 'Passport photograph is required'; isValid = false; }
     }
 
     setErrors(newErrors);
@@ -137,12 +164,16 @@ export default function ApplyPage() {
       // 1. Upload files
       let transcriptPath = null;
       let passportPath = null;
+      let photoPath = null;
       
       const fileExt1 = formData.transcriptFile?.name.split('.').pop();
       const fileName1 = `transcript-${Date.now()}.${fileExt1}`;
       
       const fileExt2 = formData.passportFile?.name.split('.').pop();
       const fileName2 = `passport-${Date.now()}.${fileExt2}`;
+      
+      const fileExt3 = formData.photoFile?.name.split('.').pop();
+      const fileName3 = `photo-${Date.now()}.${fileExt3}`;
 
       if (formData.transcriptFile) {
         const { error: uploadError1 } = await supabase.storage
@@ -160,6 +191,14 @@ export default function ApplyPage() {
         passportPath = fileName2;
       }
 
+      if (formData.photoFile) {
+        const { error: uploadError3 } = await supabase.storage
+          .from('documents')
+          .upload(fileName3, formData.photoFile);
+        if (uploadError3) throw uploadError3;
+        photoPath = fileName3;
+      }
+
       // 2. Insert into database
       const fullName = `${formData.firstName.trim()} ${formData.lastName.trim()}`;
       
@@ -167,30 +206,40 @@ export default function ApplyPage() {
         .from('applications')
         .insert([{
           full_name: fullName,
+          email: formData.email,
+          phone: formData.phone,
+          gender: formData.gender,
+          age: Number(formData.age),
+          state: formData.state,
+          zipcode: formData.zipcode,
           school_name: formData.schoolName,
-          // Since loan_amount was dropped from the form, default it to 0 or derive from calculator if it was passed. We'll use 0.
-          loan_amount: 0, 
+          loan_amount: Number(formData.loanAmount),
+          loan_purpose: formData.loanPurpose,
+          graduation_year: formData.graduationYear,
           passport_path: passportPath,
           transcript_path: transcriptPath,
+          photo_path: photoPath,
           status: 'pending'
         }]);
 
       if (dbError) throw dbError;
 
       // 3. Go to success step
+      setAppReference(`TF-${Math.floor(100000 + Math.random() * 900000)}`);
       setStep(6);
       window.scrollTo(0, 0);
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error submitting application:', err);
-      setSubmitError(err.message || 'An unexpected error occurred during submission.');
+      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred during submission.';
+      setSubmitError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   // UI Helpers
-  const StepIndicator = () => {
+  const renderStepIndicator = () => {
     if (step === 6) return null;
     
     return (
@@ -235,14 +284,14 @@ export default function ApplyPage() {
         
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-[var(--color-gray-900)] tracking-tight">
-            Apply for TruFund
+            Apply for Beacon Student Fund
           </h1>
           <p className="text-[var(--color-gray-600)] mt-2">
             Complete your application in minutes to see your options.
           </p>
         </div>
 
-        <StepIndicator />
+        {renderStepIndicator()}
 
         <div className="bg-white rounded-xl shadow-md border border-[var(--color-gray-200)] overflow-hidden">
           <div className="p-6 sm:p-8">
@@ -279,6 +328,33 @@ export default function ApplyPage() {
                       placeholder="Doe"
                     />
                     {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-[var(--color-gray-600)] mb-1">Email Address</label>
+                    <input 
+                      type="email" 
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow ${errors.email ? 'border-red-500' : 'border-[var(--color-gray-200)]'}`}
+                      placeholder="student@university.edu"
+                    />
+                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-[var(--color-gray-600)] mb-1">Phone Number</label>
+                    <input 
+                      type="tel" 
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow ${errors.phone ? 'border-red-500' : 'border-[var(--color-gray-200)]'}`}
+                      placeholder="(555) 123-4567"
+                    />
+                    {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
                   </div>
                 </div>
 
@@ -378,6 +454,33 @@ export default function ApplyPage() {
                   {errors.schoolName && <p className="text-red-500 text-xs mt-1">{errors.schoolName}</p>}
                 </div>
 
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-[var(--color-gray-600)] mb-1">Graduation Year</label>
+                    <input 
+                      type="number" 
+                      name="graduationYear"
+                      value={formData.graduationYear}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow ${errors.graduationYear ? 'border-red-500' : 'border-[var(--color-gray-200)]'}`}
+                      placeholder="e.g. 2027"
+                    />
+                    {errors.graduationYear && <p className="text-red-500 text-xs mt-1">{errors.graduationYear}</p>}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-[var(--color-gray-600)] mb-1">Loan Amount ($)</label>
+                    <input 
+                      type="number" 
+                      name="loanAmount"
+                      value={formData.loanAmount}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow ${errors.loanAmount ? 'border-red-500' : 'border-[var(--color-gray-200)]'}`}
+                      placeholder="e.g. 10000"
+                    />
+                    {errors.loanAmount && <p className="text-red-500 text-xs mt-1">{errors.loanAmount}</p>}
+                  </div>
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-[var(--color-gray-600)] mb-1">Loan Purpose</label>
                   <select 
@@ -397,7 +500,7 @@ export default function ApplyPage() {
                 <div className="bg-[var(--color-light-teal)] p-4 rounded-lg border border-secondary/20 flex gap-3">
                   <Bank size={24} className="text-secondary flex-shrink-0" weight="duotone" />
                   <p className="text-sm text-[var(--color-gray-600)]">
-                    TruFund funds are sent directly to your verified bank account, giving you the flexibility to pay for approved educational expenses as needed.
+                    Beacon Student Fund funds are sent directly to your verified bank account, giving you the flexibility to pay for approved educational expenses as needed.
                   </p>
                 </div>
               </div>
@@ -443,7 +546,7 @@ export default function ApplyPage() {
 
                 {/* Passport/ID Upload */}
                 <div>
-                  <label className="block text-sm font-medium text-[var(--color-gray-600)] mb-2">Government Issued ID (Passport / Driver's License)</label>
+                  <label className="block text-sm font-medium text-[var(--color-gray-600)] mb-2">Government Issued ID (Passport / Driver&apos;s License)</label>
                   <div className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${formData.passportFile ? 'border-secondary bg-[var(--color-light-teal)]' : errors.passportFile ? 'border-red-500 bg-red-50' : 'border-[var(--color-gray-300)] hover:border-primary bg-[var(--color-gray-50)]'}`}>
                     <input 
                       type="file" 
@@ -471,6 +574,36 @@ export default function ApplyPage() {
                   {errors.passportFile && <p className="text-red-500 text-xs mt-1">{errors.passportFile}</p>}
                 </div>
                 
+                {/* Photograph Upload */}
+                <div>
+                  <label className="block text-sm font-medium text-[var(--color-gray-600)] mb-2">Passport Photograph</label>
+                  <div className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${formData.photoFile ? 'border-secondary bg-[var(--color-light-teal)]' : errors.photoFile ? 'border-red-500 bg-red-50' : 'border-[var(--color-gray-300)] hover:border-primary bg-[var(--color-gray-50)]'}`}>
+                    <input 
+                      type="file" 
+                      id="photoUpload"
+                      className="hidden"
+                      onChange={(e) => handleFileChange(e, 'photoFile')}
+                      accept=".png,.jpg,.jpeg"
+                    />
+                    <label htmlFor="photoUpload" className="cursor-pointer flex flex-col items-center justify-center">
+                      {formData.photoFile ? (
+                        <>
+                          <CheckCircle size={32} weight="fill" className="text-secondary mb-2" />
+                          <span className="text-sm font-semibold text-[var(--color-gray-900)]">{formData.photoFile.name}</span>
+                          <span className="text-xs text-secondary mt-1 hover:underline">Change file</span>
+                        </>
+                      ) : (
+                        <>
+                          <UploadSimple size={32} className="text-[var(--color-gray-400)] mb-2" />
+                          <span className="text-sm font-medium text-primary hover:text-primary-light">Click to upload photograph</span>
+                          <span className="text-xs text-[var(--color-gray-500)] mt-1">JPG or PNG (Max 5MB)</span>
+                        </>
+                      )}
+                    </label>
+                  </div>
+                  {errors.photoFile && <p className="text-red-500 text-xs mt-1">{errors.photoFile}</p>}
+                </div>
+
                 <div className="flex items-center gap-2 text-xs text-[var(--color-gray-500)]">
                   <ShieldCheck size={16} /> All documents are securely encrypted.
                 </div>
@@ -494,6 +627,14 @@ export default function ApplyPage() {
                     <div>
                       <span className="block text-[var(--color-gray-500)] text-xs mb-1">Name</span>
                       <span className="font-medium text-[var(--color-gray-900)]">{formData.firstName} {formData.lastName}</span>
+                    </div>
+                    <div>
+                      <span className="block text-[var(--color-gray-500)] text-xs mb-1">Email</span>
+                      <span className="font-medium text-[var(--color-gray-900)]">{formData.email}</span>
+                    </div>
+                    <div>
+                      <span className="block text-[var(--color-gray-500)] text-xs mb-1">Phone</span>
+                      <span className="font-medium text-[var(--color-gray-900)]">{formData.phone}</span>
                     </div>
                     <div>
                       <span className="block text-[var(--color-gray-500)] text-xs mb-1">Gender</span>
@@ -534,6 +675,14 @@ export default function ApplyPage() {
                       <span className="font-medium text-[var(--color-gray-900)]">{formData.schoolName}</span>
                     </div>
                     <div>
+                      <span className="block text-[var(--color-gray-500)] text-xs mb-1">Graduation Year</span>
+                      <span className="font-medium text-[var(--color-gray-900)]">{formData.graduationYear}</span>
+                    </div>
+                    <div>
+                      <span className="block text-[var(--color-gray-500)] text-xs mb-1">Loan Amount</span>
+                      <span className="font-medium text-[var(--color-gray-900)]">${formData.loanAmount}</span>
+                    </div>
+                    <div>
                       <span className="block text-[var(--color-gray-500)] text-xs mb-1">Loan Purpose</span>
                       <span className="font-medium text-[var(--color-gray-900)]">{formData.loanPurpose}</span>
                     </div>
@@ -556,13 +705,35 @@ export default function ApplyPage() {
                       <span className="text-[var(--color-gray-600)]">ID/Passport:</span>
                       <span className="font-medium text-[var(--color-gray-900)] truncate max-w-[200px]">{formData.passportFile?.name}</span>
                     </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle weight="fill" className="text-success" />
+                      <span className="text-[var(--color-gray-600)]">Photograph:</span>
+                      <span className="font-medium text-[var(--color-gray-900)] truncate max-w-[200px]">{formData.photoFile?.name}</span>
+                    </div>
                   </div>
                 </div>
 
-                <div className="bg-orange-50 p-4 rounded-lg border border-accent/20">
-                  <p className="text-xs text-[var(--color-gray-700)]">
-                    By clicking "Submit Application", you authorize TruFund to perform a soft credit inquiry to determine your eligibility and rates. This will not affect your credit score.
-                  </p>
+                <div className="bg-white p-4 rounded-lg border border-[var(--color-gray-200)] shadow-sm">
+                  <div className="flex items-start gap-3">
+                    <div className="flex items-center h-5 mt-0.5">
+                      <input
+                        id="legalConsent"
+                        name="legalConsent"
+                        type="checkbox"
+                        checked={formData.legalConsent}
+                        onChange={(e) => setFormData(prev => ({ ...prev, legalConsent: e.target.checked }))}
+                        className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded cursor-pointer"
+                      />
+                    </div>
+                    <div className="text-xs text-[var(--color-gray-600)] leading-relaxed">
+                      <label htmlFor="legalConsent" className="cursor-pointer font-medium text-[var(--color-gray-900)] block mb-1">
+                        Electronic Signature & Consent
+                      </label>
+                      I agree to Beacon Student Fund&apos;s <a href="/terms" className="text-primary hover:underline" target="_blank">Terms of Service</a> and <a href="/privacy" className="text-primary hover:underline" target="_blank">Privacy Policy</a>. 
+                      I authorize Beacon Student Fund to obtain a consumer credit report to evaluate my application. I understand this is a soft credit inquiry and will not affect my credit score. 
+                      I certify that all information provided is accurate and true.
+                    </div>
+                  </div>
                 </div>
 
                 {submitError && (
@@ -581,12 +752,12 @@ export default function ApplyPage() {
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-[var(--color-gray-900)] mb-4">Application Submitted!</h2>
                 <p className="text-[var(--color-gray-600)] max-w-md mx-auto mb-8">
-                  Thank you, {formData.firstName}. We've received your application and documents. Our team is reviewing them now. 
+                  Thank you, {formData.firstName}. We&apos;ve received your application and documents. Our team is reviewing them now. 
                   You will receive an email within 2 minutes with your decision and next steps.
                 </p>
                 <div className="p-6 bg-[var(--color-gray-50)] rounded-xl border border-[var(--color-gray-200)] mb-8 max-w-sm mx-auto">
                   <p className="text-sm text-[var(--color-gray-500)] mb-1 uppercase tracking-wider font-semibold">Application Reference</p>
-                  <p className="text-xl font-mono text-primary font-bold">TF-{Math.floor(100000 + Math.random() * 900000)}</p>
+                  <p className="text-xl font-mono text-primary font-bold">{appReference}</p>
                 </div>
                 <Link 
                   href="/"
@@ -621,8 +792,8 @@ export default function ApplyPage() {
                 ) : (
                   <button
                     onClick={submitApplication}
-                    disabled={isSubmitting}
-                    className="flex items-center justify-center min-w-[200px] gap-2 px-8 py-3 bg-secondary hover:bg-secondary-hover text-white font-semibold rounded-lg transition-colors shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
+                    disabled={isSubmitting || !formData.legalConsent}
+                    className="flex items-center justify-center min-w-[200px] gap-2 px-8 py-3 bg-secondary hover:bg-secondary-hover text-white font-semibold rounded-lg transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
                       <>

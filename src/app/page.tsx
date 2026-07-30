@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import InteractiveCalculator from '@/components/InteractiveCalculator';
 import Testimonials from '@/components/Testimonials';
 import { 
@@ -10,8 +9,33 @@ import {
 } from '@phosphor-icons/react/dist/ssr';
 
 export default function Home() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FinancialService',
+    name: 'Beacon Student Fund',
+    url: 'https://beaconstudentfund.com',
+    description: 'A modern, highly trusted US-based student loan platform offering flexible funding for tuition, room, and board.',
+    areaServed: 'US',
+    priceRange: '$$',
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'US',
+    },
+    serviceType: 'Student Loans',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+      description: 'Check your rate with no impact to your credit score.',
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-[var(--color-gray-100)]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       
       {/* Hero Section */}
       <section className="bg-primary pt-24 pb-20 md:pt-32 md:pb-28 px-4 sm:px-6 lg:px-8 border-b border-[var(--color-primary-light)]">
@@ -74,7 +98,7 @@ export default function Home() {
       <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-[var(--color-gray-100)]">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-[var(--color-gray-900)] text-center mb-4 uppercase tracking-wider">
-            How TruFund Works
+            How Beacon Student Fund Works
           </h2>
           <p className="text-center text-[var(--color-gray-600)] mb-16 max-w-xl mx-auto">
             From application to funding in as little as two business days.
@@ -138,7 +162,7 @@ export default function Home() {
                 <h4 className="font-semibold text-[var(--color-gray-900)] text-lg">What documents do I need?</h4>
                 <CaretDown className="text-[var(--color-gray-400)]" />
               </div>
-              <p className="text-[var(--color-gray-600)]">You will need to upload a valid Government-issued ID (like a driver's license or passport) and a recent transcript showing your enrollment status.</p>
+              <p className="text-[var(--color-gray-600)]">You will need to upload a valid Government-issued ID (like a driver&apos;s license or passport) and a recent transcript showing your enrollment status.</p>
             </div>
 
             <div className="card p-6">
@@ -161,7 +185,7 @@ export default function Home() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/logo-white.png"
-                alt="TruFund"
+                alt="Beacon Student Fund"
                 height={40}
                 className="h-10 w-auto object-contain"
               />
@@ -194,7 +218,7 @@ export default function Home() {
         </div>
         
         <div className="max-w-7xl mx-auto pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[var(--color-gray-400)]">
-          <p>© {new Date().getFullYear()} TruFund. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Beacon Student Fund. All rights reserved.</p>
           <div className="flex items-center gap-4 md:gap-6">
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>

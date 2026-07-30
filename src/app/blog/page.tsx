@@ -1,4 +1,10 @@
 import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: 'Read the latest news and insights from Beacon Student Fund.',
+};
 
 export default function BlogPage() {
   const posts = [
@@ -14,7 +20,7 @@ export default function BlogPage() {
       category: 'Student Loans 101',
       date: 'Jul 28, 2024',
       readTime: '7 min read',
-      excerpt: 'Why TruFund only offers fixed rates, and how variable rates can end up costing you more in the long run.'
+      excerpt: 'Why Beacon Student Fund only offers fixed rates, and how variable rates can end up costing you more in the long run.'
     },
     {
       title: 'Top 10 High-Paying Part-Time Jobs for College Students',
@@ -37,9 +43,9 @@ export default function BlogPage() {
       
       <section className="bg-primary text-white py-16 px-4 border-b border-[var(--color-primary-light)]">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">The TruFund Blog</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">The Beacon Student Fund Blog</h1>
           <p className="text-lg text-[var(--color-light-teal)] max-w-2xl mx-auto">
-            Financial literacy, college survival guides, and updates from the TruFund team.
+            Financial literacy, college survival guides, and updates from the Beacon Student Fund team.
           </p>
         </div>
       </section>

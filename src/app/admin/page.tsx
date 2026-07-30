@@ -2,17 +2,21 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { DownloadSimple, CheckCircle, XCircle, FilePdf, IdentificationCard, Clock } from '@phosphor-icons/react';
+import { CheckCircle, XCircle, FilePdf, IdentificationCard, Clock } from '@phosphor-icons/react';
 
 type Application = {
   id: string;
   created_at: string;
   status: string;
   full_name: string;
+  email: string;
+  phone: string;
   loan_amount: number;
+  graduation_year: string;
   school_name: string;
   passport_path: string | null;
   transcript_path: string | null;
+  photo_path: string | null;
 };
 
 export default function AdminPortal() {
@@ -101,7 +105,7 @@ export default function AdminPortal() {
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-lg shadow-sm border border-[var(--color-gray-200)]">
           <div>
-            <h1 className="text-2xl font-bold text-[var(--color-gray-900)] font-sans uppercase tracking-wider">TRUFUND ADMIN</h1>
+            <h1 className="text-2xl font-bold text-[var(--color-gray-900)] font-sans uppercase tracking-wider">BEACON STUDENT FUND ADMIN</h1>
             <p className="text-[var(--color-gray-600)] text-sm mt-1">Application Review Queue</p>
           </div>
           <div className="flex items-center gap-3">
@@ -126,6 +130,7 @@ export default function AdminPortal() {
                     <div>
                       <h3 className="font-bold text-[var(--color-gray-900)] text-lg">{app.full_name}</h3>
                       <p className="text-xs text-[var(--color-gray-600)]">App #: {app.id.substring(0,8).toUpperCase()}</p>
+                      <p className="text-xs text-[var(--color-gray-600)] mt-1">{app.email} • {app.phone}</p>
                     </div>
                     <span 
                       className="inline-flex px-2.5 py-1 text-[10px] uppercase font-bold rounded border"
@@ -136,9 +141,13 @@ export default function AdminPortal() {
                   </div>
                   
                   <div className="bg-[var(--color-gray-100)] rounded p-3 mb-4 border border-[var(--color-gray-200)]">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col mb-2">
                       <span className="text-xs text-[var(--color-gray-600)] mb-1">Institution</span>
-                      <span className="text-sm font-medium text-[var(--color-gray-900)] truncate">{app.school_name}</span>
+                      <span className="text-sm font-medium text-[var(--color-gray-900)] truncate">{app.school_name} (Class of {app.graduation_year})</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-[var(--color-gray-600)] mb-1">Loan Amount</span>
+                      <span className="text-sm font-medium text-[var(--color-gray-900)]">${app.loan_amount}</span>
                     </div>
                   </div>
 
@@ -163,6 +172,17 @@ export default function AdminPortal() {
                       </button>
                     ) : (
                       <span className="flex-1 flex justify-center items-center px-3 py-2 bg-[var(--color-gray-100)] text-[var(--color-gray-400)] text-xs rounded border border-[var(--color-gray-200)]">No Transcript</span>
+                    )}
+                    
+                    {app.photo_path ? (
+                      <button 
+                        onClick={() => downloadDocument(app.photo_path!, `${app.full_name.replace(' ', '_')}_Photo.jpg`)}
+                        className="flex-1 flex justify-center items-center gap-1.5 px-3 py-2 bg-[var(--color-gray-100)] hover:bg-[var(--color-gray-200)] text-[var(--color-gray-900)] text-xs font-medium rounded transition-colors border border-[var(--color-gray-200)]"
+                      >
+                        <IdentificationCard size={16} /> Photo
+                      </button>
+                    ) : (
+                      <span className="flex-1 flex justify-center items-center px-3 py-2 bg-[var(--color-gray-100)] text-[var(--color-gray-400)] text-xs rounded border border-[var(--color-gray-200)]">No Photo</span>
                     )}
                   </div>
                 </div>
@@ -214,9 +234,11 @@ export default function AdminPortal() {
                       <div className="text-xs text-[var(--color-gray-600)] mt-1 font-mono">
                         APP-{app.id.substring(0,5).toUpperCase()}
                       </div>
+                      <div className="text-xs text-[var(--color-gray-500)] mt-1">{app.email}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-[var(--color-gray-900)] truncate max-w-[250px]">{app.school_name}</div>
+                      <div className="text-sm font-medium text-[var(--color-gray-900)] truncate max-w-[250px]">{app.school_name} (Class of {app.graduation_year})</div>
+                      <div className="text-xs text-[var(--color-gray-600)] mt-1">Amount: ${app.loan_amount}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span 
@@ -244,6 +266,16 @@ export default function AdminPortal() {
                             className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-[var(--color-gray-100)] text-[var(--color-gray-900)] text-xs font-semibold rounded transition-colors border border-[var(--color-gray-200)] shadow-sm"
                           >
                             <FilePdf weight="bold" size={16} /> Transcript
+                          </button>
+                        ) : (
+                          <span className="px-3 py-1.5 text-xs text-[var(--color-gray-400)] italic">N/A</span>
+                        )}
+                        {app.photo_path ? (
+                          <button 
+                            onClick={() => downloadDocument(app.photo_path!, `${app.full_name.replace(' ', '_')}_Photo.jpg`)}
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-[var(--color-gray-100)] text-[var(--color-gray-900)] text-xs font-semibold rounded transition-colors border border-[var(--color-gray-200)] shadow-sm"
+                          >
+                            <IdentificationCard weight="bold" size={16} /> Photo
                           </button>
                         ) : (
                           <span className="px-3 py-1.5 text-xs text-[var(--color-gray-400)] italic">N/A</span>

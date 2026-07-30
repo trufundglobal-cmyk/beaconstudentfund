@@ -6,7 +6,7 @@ export default function Testimonials() {
       school: "University of Michigan",
       degree: "B.S. Nursing, Class of 2019",
       imagePath: "/student_portrait_1.png",
-      quote: "My financial aid came through short by about $2,400 — not enough to cover my clinical rotation fees and uniform costs. I was looking at having to push back my graduation by a full semester. TruFund got me the money in 48 hours. The whole application took me maybe 10 minutes on my phone between classes.",
+      quote: "My financial aid came through short by about $2,400 — not enough to cover my clinical rotation fees and uniform costs. I was looking at having to push back my graduation by a full semester. Beacon Student Fund got me the money in 48 hours. The whole application took me maybe 10 minutes on my phone between classes.",
     },
     {
       id: 2,
@@ -14,7 +14,7 @@ export default function Testimonials() {
       school: "University of Texas at Austin",
       degree: "M.S. Mechanical Engineering, Class of 2021",
       imagePath: "/student_portrait_2.png",
-      quote: "I lost my campus job mid-semester when the department froze hiring. I was behind on rent and couldn't ask my parents again. I applied to TruFund on a Wednesday night and had a decision by Thursday morning. No cosigner, no drama. I paid it back over two years — it's built into my budget like a phone bill.",
+      quote: "I lost my campus job mid-semester when the department froze hiring. I was behind on rent and couldn't ask my parents again. I applied to Beacon Student Fund on a Wednesday night and had a decision by Thursday morning. No cosigner, no drama. I paid it back over two years — it's built into my budget like a phone bill.",
     },
     {
       id: 3,
@@ -22,7 +22,7 @@ export default function Testimonials() {
       school: "New York University",
       degree: "MBA, Class of 2023",
       imagePath: "/student_portrait_3.png",
-      quote: "Rent in New York is no joke. My stipend covered most of it but I kept coming up short in the last month of each semester. I used TruFund twice — once for $3,000 and once for $4,500. The rate was better than my credit card and I actually knew what I was signing up for, which I appreciated.",
+      quote: "Rent in New York is no joke. My stipend covered most of it but I kept coming up short in the last month of each semester. I used Beacon Student Fund twice — once for $3,000 and once for $4,500. The rate was better than my credit card and I actually knew what I was signing up for, which I appreciated.",
     }
   ];
 
@@ -32,10 +32,10 @@ export default function Testimonials() {
         <div className="mb-14">
           <p className="text-xs font-semibold text-[var(--color-gray-400)] uppercase tracking-widest mb-3">Student Stories</p>
           <h2 className="text-2xl md:text-3xl font-bold text-[var(--color-gray-900)] mb-3">
-            What students say about TruFund
+            What students say about Beacon Student Fund
           </h2>
           <p className="text-[var(--color-gray-600)] max-w-xl">
-            We've been helping students cover funding gaps since 2013. These are a few of the stories we've heard along the way.
+            We&apos;ve been helping students cover funding gaps since 2013. These are a few of the stories we&apos;ve heard along the way.
           </p>
         </div>
 
@@ -43,7 +43,7 @@ export default function Testimonials() {
           {testimonials.map((t) => (
             <div key={t.id} className="bg-[var(--color-gray-50)] rounded-xl p-7 border border-[var(--color-gray-200)] flex flex-col">
               <p className="text-[var(--color-gray-700)] leading-relaxed text-sm mb-8 flex-1">
-                "{t.quote}"
+                &quot;{t.quote}&quot;
               </p>
               
               <div className="flex items-center gap-3">

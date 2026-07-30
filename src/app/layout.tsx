@@ -14,8 +14,37 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "TruFund | Trusted Student Loans",
-  description: "A modern, highly trusted US-based student loan platform.",
+  metadataBase: new URL("https://beaconstudentfund.com"),
+  title: {
+    template: "%s | Beacon Student Fund",
+    default: "Beacon Student Fund | Trusted US Student Loans",
+  },
+  description: "A modern, highly trusted US-based student loan platform offering flexible funding for tuition, room, and board with decisions in minutes.",
+  keywords: ["student loans", "US student loans", "college funding", "tuition gap", "Beacon Student Fund", "unsecured student loans"],
+  openGraph: {
+    title: "Beacon Student Fund | Trusted US Student Loans",
+    description: "A modern, highly trusted US-based student loan platform offering flexible funding for tuition, room, and board.",
+    url: "https://beaconstudentfund.com",
+    siteName: "Beacon Student Fund",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Beacon Student Fund | Trusted US Student Loans",
+    description: "A modern, highly trusted US-based student loan platform offering flexible funding for tuition, room, and board.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {

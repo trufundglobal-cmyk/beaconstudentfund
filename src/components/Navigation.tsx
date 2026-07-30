@@ -15,6 +15,7 @@ export default function Navigation() {
     { name: 'Rates', href: '/rates' },
     { name: 'FAQ', href: '/#faq' },
     { name: 'About', href: '/about' },
+    { name: 'Careers', href: '/careers' },
   ];
 
   return (
@@ -28,7 +29,7 @@ export default function Navigation() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={LOGO_PATH}
-                alt="TruFund"
+                alt="Beacon Student Fund"
                 height={36}
                 className="h-9 w-auto object-contain"
               />

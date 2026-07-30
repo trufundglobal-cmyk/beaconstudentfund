@@ -1,4 +1,10 @@
 import { FileText } from '@phosphor-icons/react/dist/ssr';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Terms of Service',
+  description: 'Terms of service for Beacon Student Fund.',
+};
 
 export default function TermsPage() {
   return (
@@ -15,12 +21,12 @@ export default function TermsPage() {
 
         <div className="prose prose-lg text-[var(--color-gray-600)] max-w-none">
           <p>
-            Welcome to TruFund. These Terms of Service ("Terms") govern your use of the TruFund website and platform. By accessing our platform and applying for a loan, you agree to comply with these terms.
+            Welcome to Beacon Student Fund. These Terms of Service (&quot;Terms&quot;) govern your use of the Beacon Student Fund website and platform. By accessing our platform and applying for a loan, you agree to comply with these terms.
           </p>
 
           <h2 className="text-2xl font-bold text-[var(--color-gray-900)] mt-10 mb-4 border-b border-[var(--color-gray-200)] pb-2">1. Eligibility</h2>
           <p>
-            To use the TruFund platform, you must be:
+            To use the Beacon Student Fund platform, you must be:
           </p>
           <ul className="list-disc pl-6 space-y-2 mb-6">
             <li>At least 17 years of age (or the age of majority in your state of residence).</li>
@@ -30,7 +36,7 @@ export default function TermsPage() {
 
           <h2 className="text-2xl font-bold text-[var(--color-gray-900)] mt-10 mb-4 border-b border-[var(--color-gray-200)] pb-2">2. Loan Approval and Disbursement</h2>
           <p>
-            All loan applications are subject to credit approval and verification of enrollment. TruFund reserves the right to reject any application that does not meet our underwriting criteria. Funds will only be disbursed to a verified US bank account in the borrower's name.
+            All loan applications are subject to credit approval and verification of enrollment. Beacon Student Fund reserves the right to reject any application that does not meet our underwriting criteria. Funds will only be disbursed to a verified US bank account in the borrower&apos;s name.
           </p>
 
           <h2 className="text-2xl font-bold text-[var(--color-gray-900)] mt-10 mb-4 border-b border-[var(--color-gray-200)] pb-2">3. Document Authenticity</h2>
@@ -45,7 +51,7 @@ export default function TermsPage() {
 
           <h2 className="text-2xl font-bold text-[var(--color-gray-900)] mt-10 mb-4 border-b border-[var(--color-gray-200)] pb-2">5. Platform Integrity</h2>
           <p>
-            You agree not to attempt to bypass our security measures, scrape data, or use our platform for any illicit purposes. TruFund maintains the right to suspend or terminate accounts suspected of malicious activity.
+            You agree not to attempt to bypass our security measures, scrape data, or use our platform for any illicit purposes. Beacon Student Fund maintains the right to suspend or terminate accounts suspected of malicious activity.
           </p>
         </div>
       </div>

@@ -1,5 +1,12 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { Users, Target, ShieldCheck } from '@phosphor-icons/react/dist/ssr';
+
+export const metadata: Metadata = {
+  title: 'About Us',
+  description: 'Learn about Beacon Student Fund, our mission to bridge the tuition gap, and why we put students first.',
+};
+
 
 export default function AboutPage() {
   return (
@@ -9,7 +16,7 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Bridging the Tuition Gap</h1>
           <p className="text-xl text-[var(--color-light-teal)] max-w-2xl mx-auto leading-relaxed">
-            We believe that no student should have to drop out because of a temporary financial shortfall. TruFund was built to provide fast, transparent, and fair funding to students when they need it most.
+            We believe that no student should have to drop out because of a temporary financial shortfall. Beacon Student Fund was built to provide fast, transparent, and fair funding to students when they need it most.
           </p>
         </div>
       </section>
@@ -34,7 +41,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-xl font-bold text-[var(--color-gray-900)] mb-3">Transparency</h3>
               <p className="text-[var(--color-gray-600)]">
-                We don't do hidden fees, tricky compounding, or surprise rate hikes. What you see is exactly what you get, backed by bank-level security.
+                We don&apos;t do hidden fees, tricky compounding, or surprise rate hikes. What you see is exactly what you get, backed by bank-level security.
               </p>
             </div>
 
@@ -44,7 +51,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-xl font-bold text-[var(--color-gray-900)] mb-3">Student-First</h3>
               <p className="text-[var(--color-gray-600)]">
-                Our platform is designed around the student experience. We don't require cosigners for our standard gap loans, trusting in your future potential.
+                Our platform is designed around the student experience. We don&apos;t require cosigners for our standard gap loans, trusting in your future potential.
               </p>
             </div>
           </div>
@@ -56,10 +63,10 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto prose prose-lg text-[var(--color-gray-600)]">
           <h2 className="text-3xl font-bold text-[var(--color-gray-900)] text-center mb-8">Our Story</h2>
           <p>
-            TruFund was founded in 2024 after our founders witnessed countless classmates struggle to cover small gaps in their tuition and living expenses. Federal aid often falls just short, and traditional private loans require lengthy processes, high minimums, and cosigners that many students simply don't have.
+            Beacon Student Fund was founded in 2024 after our founders witnessed countless classmates struggle to cover small gaps in their tuition and living expenses. Federal aid often falls just short, and traditional private loans require lengthy processes, high minimums, and cosigners that many students simply don&apos;t have.
           </p>
           <p>
-            We realized there was a need for a "bridge"—a fast, reliable, and fair way to secure funding for the last $1,000 to $15,000 needed to stay enrolled. By leveraging modern technology and alternative data, TruFund provides instant decisions and fast funding, keeping students in the classroom where they belong.
+            We realized there was a need for a &quot;bridge&quot;—a fast, reliable, and fair way to secure funding for the last $1,000 to $15,000 needed to stay enrolled. By leveraging modern technology and alternative data, Beacon Student Fund provides instant decisions and fast funding, keeping students in the classroom where they belong.
           </p>
         </div>
       </section>

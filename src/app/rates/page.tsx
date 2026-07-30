@@ -1,5 +1,12 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
-import { Percent, CalendarBlank, ShieldCheck, CreditCard } from '@phosphor-icons/react/dist/ssr';
+import { CalendarBlank, ShieldCheck, CreditCard } from '@phosphor-icons/react/dist/ssr';
+
+export const metadata: Metadata = {
+  title: 'Rates & Terms',
+  description: 'Clear, transparent pricing for your student loans. Fixed rates from 5.99% to 14.99% APR with no hidden fees.',
+};
+
 
 export default function RatesPage() {
   return (
