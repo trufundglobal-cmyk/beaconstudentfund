@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import InteractiveCalculator from '@/components/InteractiveCalculator';
 import Testimonials from '@/components/Testimonials';
+import FadeIn from '@/components/FadeIn';
 import { 
   LockKey,
   Lightning, 
@@ -81,97 +82,117 @@ export default function Home() {
 
       {/* Trust Bar */}
       <div className="bg-white border-b border-[var(--color-gray-200)] py-4">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 text-[var(--color-gray-600)] text-sm font-medium">
-          <div className="flex items-center gap-2">
-            <LockKey weight="bold" className="text-[var(--color-gray-400)]" size={18} /> 256-bit SSL Encryption
+        <FadeIn delay={0.1}>
+          <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 text-[var(--color-gray-600)] text-sm font-medium">
+            <div className="flex items-center gap-2">
+              <LockKey weight="bold" className="text-[var(--color-gray-400)]" size={18} /> 256-bit SSL Encryption
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle weight="bold" className="text-[var(--color-gray-400)]" size={18} /> No Hidden Fees
+            </div>
+            <div className="flex items-center gap-2">
+              <Lightning weight="bold" className="text-[var(--color-gray-400)]" size={18} /> Decision in 2 Minutes
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle weight="bold" className="text-[var(--color-gray-400)]" size={18} /> No Hidden Fees
-          </div>
-          <div className="flex items-center gap-2">
-            <Lightning weight="bold" className="text-[var(--color-gray-400)]" size={18} /> Decision in 2 Minutes
-          </div>
-        </div>
+        </FadeIn>
       </div>
 
       {/* How It Works */}
       <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-[var(--color-gray-100)]">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-[var(--color-gray-900)] text-center mb-4 uppercase tracking-wider">
-            How Beacon Student Fund Works
-          </h2>
-          <p className="text-center text-[var(--color-gray-600)] mb-16 max-w-xl mx-auto">
-            From application to funding in as little as two business days.
-          </p>
+          <FadeIn>
+            <h2 className="text-2xl md:text-3xl font-bold text-[var(--color-gray-900)] text-center mb-4 uppercase tracking-wider">
+              How Beacon Student Fund Works
+            </h2>
+            <p className="text-center text-[var(--color-gray-600)] mb-16 max-w-xl mx-auto">
+              From application to funding in as little as two business days.
+            </p>
+          </FadeIn>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
             {/* Connecting line visible on desktop */}
             <div className="hidden md:block absolute top-10 left-[calc(16.67%+1rem)] right-[calc(16.67%+1rem)] h-px bg-[var(--color-gray-200)] z-0"></div>
 
             {/* Step 1 */}
-            <div className="card p-8 text-center flex flex-col items-center relative z-10">
-              <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold mb-6 shadow-sm">
-                1
+            <FadeIn delay={0.1} className="relative z-10">
+              <div className="card p-8 text-center flex flex-col items-center h-full">
+                <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold mb-6 shadow-sm">
+                  1
+                </div>
+                <h3 className="text-lg font-semibold text-[var(--color-gray-900)] mb-2">Apply Online</h3>
+                <p className="text-[var(--color-gray-600)] text-sm leading-relaxed">Fill out our short application. Takes about 5 minutes. No impact to your credit score.</p>
               </div>
-              <h3 className="text-lg font-semibold text-[var(--color-gray-900)] mb-2">Apply Online</h3>
-              <p className="text-[var(--color-gray-600)] text-sm leading-relaxed">Fill out our short application. Takes about 5 minutes. No impact to your credit score.</p>
-            </div>
+            </FadeIn>
 
             {/* Step 2 */}
-            <div className="card p-8 text-center flex flex-col items-center relative z-10">
-              <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold mb-6 shadow-sm">
-                2
+            <FadeIn delay={0.3} className="relative z-10">
+              <div className="card p-8 text-center flex flex-col items-center h-full">
+                <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold mb-6 shadow-sm">
+                  2
+                </div>
+                <h3 className="text-lg font-semibold text-[var(--color-gray-900)] mb-2">Upload Your Documents</h3>
+                <p className="text-[var(--color-gray-600)] text-sm leading-relaxed">Securely upload a government-issued ID and your most recent transcript. All files are 256-bit encrypted.</p>
               </div>
-              <h3 className="text-lg font-semibold text-[var(--color-gray-900)] mb-2">Upload Your Documents</h3>
-              <p className="text-[var(--color-gray-600)] text-sm leading-relaxed">Securely upload a government-issued ID and your most recent transcript. All files are 256-bit encrypted.</p>
-            </div>
+            </FadeIn>
 
             {/* Step 3 */}
-            <div className="card p-8 text-center flex flex-col items-center relative z-10">
-              <div className="w-10 h-10 bg-secondary text-white rounded-full flex items-center justify-center text-sm font-bold mb-6 shadow-sm">
-                3
+            <FadeIn delay={0.5} className="relative z-10">
+              <div className="card p-8 text-center flex flex-col items-center h-full">
+                <div className="w-10 h-10 bg-secondary text-white rounded-full flex items-center justify-center text-sm font-bold mb-6 shadow-sm">
+                  3
+                </div>
+                <h3 className="text-lg font-semibold text-[var(--color-gray-900)] mb-2">Get Funded</h3>
+                <p className="text-[var(--color-gray-600)] text-sm leading-relaxed">Once approved, funds are deposited directly into your bank account — as fast as 2 business days.</p>
               </div>
-              <h3 className="text-lg font-semibold text-[var(--color-gray-900)] mb-2">Get Funded</h3>
-              <p className="text-[var(--color-gray-600)] text-sm leading-relaxed">Once approved, funds are deposited directly into your bank account — as fast as 2 business days.</p>
-            </div>
+            </FadeIn>
           </div>
         </div>
       </section>
 
       {/* Social Proof */}
-      <Testimonials />
+      <FadeIn delay={0.1}>
+        <Testimonials />
+      </FadeIn>
 
       {/* FAQ Preview */}
       <section id="faq" className="py-20 px-4 bg-[var(--color-gray-100)]">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-[var(--color-gray-900)] text-center mb-12 uppercase tracking-wider">
-            Frequently Asked Questions
-          </h2>
+          <FadeIn>
+            <h2 className="text-2xl md:text-3xl font-bold text-[var(--color-gray-900)] text-center mb-12 uppercase tracking-wider">
+              Frequently Asked Questions
+            </h2>
+          </FadeIn>
           
           <div className="space-y-4">
-            <div className="card p-6">
-              <div className="flex justify-between items-center mb-2">
-                <h4 className="font-semibold text-[var(--color-gray-900)] text-lg">Will checking my rate affect my credit score?</h4>
-                <CaretDown className="text-[var(--color-gray-400)]" />
+            <FadeIn delay={0.1}>
+              <div className="card p-6">
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="font-semibold text-[var(--color-gray-900)] text-lg">Will checking my rate affect my credit score?</h4>
+                  <CaretDown className="text-[var(--color-gray-400)]" />
+                </div>
+                <p className="text-[var(--color-gray-600)]">No, we use a soft credit pull to show your estimated rates. A hard inquiry is only performed if you choose a loan and continue the application.</p>
               </div>
-              <p className="text-[var(--color-gray-600)]">No, we use a soft credit pull to show your estimated rates. A hard inquiry is only performed if you choose a loan and continue the application.</p>
-            </div>
+            </FadeIn>
             
-            <div className="card p-6">
-              <div className="flex justify-between items-center mb-2">
-                <h4 className="font-semibold text-[var(--color-gray-900)] text-lg">What documents do I need?</h4>
-                <CaretDown className="text-[var(--color-gray-400)]" />
+            <FadeIn delay={0.2}>
+              <div className="card p-6">
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="font-semibold text-[var(--color-gray-900)] text-lg">What documents do I need?</h4>
+                  <CaretDown className="text-[var(--color-gray-400)]" />
+                </div>
+                <p className="text-[var(--color-gray-600)]">You will need to upload a valid Government-issued ID (like a driver&apos;s license or passport) and a recent transcript showing your enrollment status.</p>
               </div>
-              <p className="text-[var(--color-gray-600)]">You will need to upload a valid Government-issued ID (like a driver&apos;s license or passport) and a recent transcript showing your enrollment status.</p>
-            </div>
+            </FadeIn>
 
-            <div className="card p-6">
-              <div className="flex justify-between items-center mb-2">
-                <h4 className="font-semibold text-[var(--color-gray-900)] text-lg">How long until I get my money?</h4>
-                <CaretDown className="text-[var(--color-gray-400)]" />
+            <FadeIn delay={0.3}>
+              <div className="card p-6">
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="font-semibold text-[var(--color-gray-900)] text-lg">How long until I get my money?</h4>
+                  <CaretDown className="text-[var(--color-gray-400)]" />
+                </div>
+                <p className="text-[var(--color-gray-600)]">Once approved and your documents are verified, funds are typically disbursed within 2 to 5 business days.</p>
               </div>
-              <p className="text-[var(--color-gray-600)]">Once approved and your documents are verified, funds are typically disbursed within 2 to 5 business days.</p>
-            </div>
+            </FadeIn>
           </div>
         </div>
       </section>
